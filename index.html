@@ -112,7 +112,7 @@
   <div class="screen active" id="s0">
     <h1>⚔️ A Quest Awaits ⚔️</h1>
     <p class="sub">"It's dangerous to dine alone. Take this quest."</p>
-    <p class="lead">A brave adventurer seeks your company for a legendary feast.<br>Do you accept the call?</p>
+    <p class="lead">A brave adventurer seeks <span id="nameLead">your</span> company for a legendary feast.<br>Do you accept the call?</p>
     <div style="text-align:center;"><button class="btn gold" onclick="go(1)">▶ Begin the Quest</button></div>
     <p class="note">A short scroll of considerations follows. It takes but a minute, hero.</p>
   </div>
@@ -132,7 +132,7 @@
   <!-- SCREEN 2: THE ASK -->
   <div class="screen" id="s2">
     <h1>The Question of Destiny</h1>
-    <p class="lead">Will you join me for dinner,<br>brave one?</p>
+    <p class="lead">Will you join me for dinner,<br><span id="nameAsk">brave one</span>?</p>
     <div class="yesno">
       <button class="btn gold" id="yesBtn" onclick="go(3)">💚 Yes!</button>
       <button class="btn" id="noBtn"
@@ -148,7 +148,7 @@
     <div class="progress"><i id="prog"></i></div>
     <p class="sub">Choose your path, and the feast shall be planned.</p>
 
-    <label class="q">🌙 Which night suits you? <span class="hint">— pick any that work (3–14 Aug 2026)</span></label>
+    <label class="q">🌙 Which night suits you? <span class="hint">— pick any that work (4–13 Aug 2026)</span></label>
     <div class="grid days" id="days"></div>
 
     <label class="q">🕯️ What time do you prefer?</label>
@@ -201,12 +201,24 @@
   var HOST_EMAIL = "brobert.uy@gmail.com"; // the adventurer who gets the invite
   var TZ = "Australia/Brisbane";
 
+  // ---- INVITEE NAME FROM URL (?name=Zelda) ----
+  var INVITEE = "";
+  (function(){
+    var p = new URLSearchParams(window.location.search);
+    var n = (p.get('name') || p.get('to') || '').trim().slice(0,40);
+    if(n){
+      INVITEE = n;
+      document.getElementById('nameLead').textContent = n + "'s";
+      document.getElementById('nameAsk').textContent = n;
+    }
+  })();
+
   // ---- DATA ----
   var dayList = [
-    ["2026-08-03","Mon 3 Aug"],["2026-08-04","Tue 4 Aug"],["2026-08-05","Wed 5 Aug"],
-    ["2026-08-06","Thu 6 Aug"],["2026-08-07","Fri 7 Aug"],["2026-08-08","Sat 8 Aug"],
-    ["2026-08-09","Sun 9 Aug"],["2026-08-10","Mon 10 Aug"],["2026-08-11","Tue 11 Aug"],
-    ["2026-08-12","Wed 12 Aug"],["2026-08-13","Thu 13 Aug"],["2026-08-14","Fri 14 Aug"]
+    ["2026-08-04","Tue 4 Aug"],["2026-08-05","Wed 5 Aug"],["2026-08-06","Thu 6 Aug"],
+    ["2026-08-07","Fri 7 Aug"],["2026-08-08","Sat 8 Aug"],["2026-08-09","Sun 9 Aug"],
+    ["2026-08-10","Mon 10 Aug"],["2026-08-11","Tue 11 Aug"],["2026-08-12","Wed 12 Aug"],
+    ["2026-08-13","Thu 13 Aug"]
   ];
   var timeList = [["18:00","6:00 pm"],["18:30","6:30 pm"],["19:00","7:00 pm"],["19:30","7:30 pm"],["20:00","8:00 pm"]];
   var petList = ["Leave them at home","Bring them with us","No pets — not applicable"];
@@ -317,7 +329,7 @@
 
     var details = lines.join("\n");
     var url = "https://calendar.google.com/calendar/render?action=TEMPLATE"
-      + "&text=" + encodeURIComponent("⚔️ Dinner Quest with " + HOST_EMAIL.split('@')[0])
+      + "&text=" + encodeURIComponent("⚔️ Dinner Quest" + (INVITEE ? " with " + INVITEE : ""))
       + "&dates=" + startStamp + "/" + endStamp
       + "&ctz=" + encodeURIComponent(TZ)
       + "&details=" + encodeURIComponent(details)

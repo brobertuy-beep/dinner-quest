@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#1b3a2b" />
+<title>A Quest Awaits ⚔️</title>
+<meta property="og:title" content="A Quest Awaits ⚔️" />
+<meta property="og:description" content="It's dangerous to dine alone. Take this quest." />
+<style>
+  :root{
+    --parch:#f3e6c4; --parch2:#e8d29a; --ink:#2c1e0e; --gold:#c9a44c;
+    --green:#1b3a2b; --green2:#295a3f; --leaf:#3f8f5f; --red:#b53a2f;
+    --shadow:rgba(0,0,0,.35);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:'Trebuchet MS','Segoe UI',sans-serif;
+    background:
+      radial-gradient(circle at 50% 0%, #2a5540 0%, #16281d 60%, #0c150f 100%) fixed;
+    color:var(--ink);
+    min-height:100vh;
+    display:flex; align-items:center; justify-content:center;
+    padding:18px;
+    overflow-x:hidden;
+  }
+  .frame{
+    width:100%; max-width:640px;
+    background:linear-gradient(180deg,var(--parch),var(--parch2));
+    border:5px solid var(--gold);
+    border-radius:18px;
+    box-shadow:0 14px 40px var(--shadow), inset 0 0 60px rgba(160,120,40,.18);
+    padding:26px 22px 30px;
+    position:relative;
+  }
+  .frame::before,.frame::after{
+    content:"◆"; position:absolute; color:var(--gold); font-size:18px;
+    top:6px;
+  }
+  .frame::before{left:12px;} .frame::after{right:12px;}
+  .triforce{width:52px;height:46px;display:block;margin:0 auto 6px;}
+  h1{
+    text-align:center; color:var(--green); margin:.1em 0 .1em;
+    font-size:1.6rem; letter-spacing:.5px;
+    text-shadow:1px 1px 0 #fff6d8;
+  }
+  .sub{text-align:center;color:#6a5325;font-style:italic;margin:0 0 18px;font-size:.95rem;}
+  .screen{display:none; animation:fade .5s ease;}
+  .screen.active{display:block;}
+  @keyframes fade{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+  p.lead{font-size:1.08rem;line-height:1.5;text-align:center;margin:.4em 0 1.1em;}
+  label.q{display:block;font-weight:bold;color:var(--green);margin:16px 0 8px;font-size:1.05rem;}
+  .hint{font-weight:normal;color:#7a6234;font-size:.85rem;font-style:italic;}
+  .grid{display:grid;gap:9px;}
+  .grid.two{grid-template-columns:repeat(auto-fit,minmax(120px,1fr));}
+  .grid.days{grid-template-columns:repeat(auto-fit,minmax(140px,1fr));}
+  .opt{
+    position:relative; display:flex; align-items:center; gap:9px;
+    background:rgba(255,255,255,.45); border:2px solid #cdb884;
+    border-radius:10px; padding:11px 12px; cursor:pointer;
+    transition:.15s; font-size:.98rem; user-select:none;
+  }
+  .opt:hover{border-color:var(--leaf);background:rgba(255,255,255,.7);}
+  .opt input{accent-color:var(--leaf);width:18px;height:18px;flex:none;}
+  .opt.sel{background:rgba(63,143,95,.22);border-color:var(--leaf);box-shadow:0 0 0 2px rgba(63,143,95,.25) inset;}
+  input[type=email]{
+    width:100%;padding:13px 14px;border:2px solid #cdb884;border-radius:10px;
+    font-size:1rem;background:rgba(255,255,255,.7);color:var(--ink);
+  }
+  input[type=email]:focus{outline:none;border-color:var(--leaf);}
+  .btn{
+    display:inline-block;background:linear-gradient(180deg,var(--green2),var(--green));
+    color:#ffe9a8;border:2px solid var(--gold);border-radius:12px;
+    padding:13px 26px;font-size:1.05rem;font-weight:bold;cursor:pointer;
+    box-shadow:0 5px 0 #123122, 0 8px 14px var(--shadow);
+    transition:transform .08s, box-shadow .08s; letter-spacing:.5px;
+  }
+  .btn:hover{filter:brightness(1.08);}
+  .btn:active{transform:translateY(3px);box-shadow:0 2px 0 #123122;}
+  .btn.gold{background:linear-gradient(180deg,#e5c15f,#c9a44c);color:#3a2a06;box-shadow:0 5px 0 #8a6d1f,0 8px 14px var(--shadow);}
+  .nav{display:flex;justify-content:space-between;align-items:center;margin-top:22px;gap:12px;}
+  .btn.ghost{background:transparent;color:var(--green);box-shadow:none;border-color:#cdb884;}
+  .yesno{position:relative;height:150px;margin-top:10px;}
+  #yesBtn{position:absolute;left:50%;top:20px;transform:translateX(-50%);}
+  #noBtn{
+    position:absolute;left:50%;top:88px;transform:translateX(-50%);
+    background:linear-gradient(180deg,#c95246,var(--red));color:#ffe4e0;
+    box-shadow:0 5px 0 #7c241c,0 8px 14px var(--shadow);
+    transition:top .18s, left .18s;
+  }
+  .hearts{text-align:center;font-size:1.3rem;letter-spacing:4px;margin:6px 0 2px;}
+  .progress{height:8px;background:rgba(0,0,0,.12);border-radius:6px;overflow:hidden;margin:2px 0 4px;}
+  .progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--leaf),var(--gold));transition:width .4s;}
+  .reminders{list-style:none;padding:0;margin:8px 0 0;}
+  .reminders li{
+    background:rgba(255,255,255,.45);border:2px dashed #cdb884;border-radius:10px;
+    padding:12px 14px;margin-bottom:10px;font-size:1rem;display:flex;gap:10px;align-items:center;
+  }
+  .reminders .ic{font-size:1.3rem;}
+  .note{font-size:.82rem;color:#7a6234;text-align:center;margin-top:14px;font-style:italic;}
+  .cond{display:none;}
+  .cond.show{display:block;}
+  @media(max-width:480px){h1{font-size:1.35rem;} .frame{padding:22px 15px 26px;}}
+</style>
+</head>
+<body>
+<div class="frame">
+  <svg class="triforce" viewBox="0 0 100 90"><polygon points="50,2 68,34 32,34" fill="#c9a44c"/><polygon points="30,38 48,70 12,70" fill="#c9a44c"/><polygon points="70,38 88,70 52,70" fill="#c9a44c"/></svg>
+
+  <!-- SCREEN 0: TITLE -->
+  <div class="screen active" id="s0">
+    <h1>⚔️ A Quest Awaits ⚔️</h1>
+    <p class="sub">"It's dangerous to dine alone. Take this quest."</p>
+    <p class="lead">A brave adventurer seeks your company for a legendary feast.<br>Do you accept the call?</p>
+    <div style="text-align:center;"><button class="btn gold" onclick="go(1)">▶ Begin the Quest</button></div>
+    <p class="note">A short scroll of considerations follows. It takes but a minute, hero.</p>
+  </div>
+
+  <!-- SCREEN 1: EMAIL (start) -->
+  <div class="screen" id="s1">
+    <h1>Scroll of Summoning</h1>
+    <p class="sub">Every hero needs a way to receive the invitation.</p>
+    <label class="q">📜 Your email address <span class="hint">— so a calendar invite can find you</span></label>
+    <input type="email" id="email1" placeholder="hero@hyrule.com" autocomplete="email" inputmode="email" />
+    <div class="nav">
+      <button class="btn ghost" onclick="go(0)">◀ Back</button>
+      <button class="btn" onclick="saveEmailStart()">Onward ▶</button>
+    </div>
+  </div>
+
+  <!-- SCREEN 2: THE ASK -->
+  <div class="screen" id="s2">
+    <h1>The Question of Destiny</h1>
+    <p class="lead">Will you join me for dinner,<br>brave one?</p>
+    <div class="yesno">
+      <button class="btn gold" id="yesBtn" onclick="go(3)">💚 Yes!</button>
+      <button class="btn" id="noBtn"
+        onmouseover="dodge()" onmouseenter="dodge()" ontouchstart="dodge();return false;"
+        onclick="dodge()">No</button>
+    </div>
+    <p class="note" id="noTaunt">(The "No" button seems... cursed. It will not be caught.)</p>
+  </div>
+
+  <!-- SCREEN 3: CONSIDERATIONS -->
+  <div class="screen" id="s3">
+    <h1>Scroll of Considerations</h1>
+    <div class="progress"><i id="prog"></i></div>
+    <p class="sub">Choose your path, and the feast shall be planned.</p>
+
+    <label class="q">🌙 Which night suits you? <span class="hint">— pick any that work (3–14 Aug 2026)</span></label>
+    <div class="grid days" id="days"></div>
+
+    <label class="q">🕯️ What time do you prefer?</label>
+    <div class="grid two" id="times"></div>
+
+    <label class="q">🐾 If you have companions (pets), shall we leave them or bring them?</label>
+    <div class="grid" id="pets"></div>
+
+    <div class="cond" id="takeawayWrap">
+      <label class="q">🥡 If we bring them — are you okay with takeaway, should no suitable tavern be found?</label>
+      <div class="grid" id="takeaway"></div>
+    </div>
+
+    <label class="q">🍜 What cuisine do you desire? <span class="hint">— Brisbane's finest</span></label>
+    <div class="grid two" id="cuisine"></div>
+
+    <label class="q">🌿 Any dietary requirements?</label>
+    <div class="grid two" id="diet"></div>
+
+    <div class="nav">
+      <button class="btn ghost" onclick="go(2)">◀ Back</button>
+      <button class="btn" onclick="go(4)">To the Final Scroll ▶</button>
+    </div>
+  </div>
+
+  <!-- SCREEN 4: REMINDERS + CONFIRM EMAIL + FINISH -->
+  <div class="screen" id="s4">
+    <h1>Reminders for the Hero</h1>
+    <p class="sub">No tasks — simply things to carry with you.</p>
+    <ul class="reminders">
+      <li><span class="ic">😊</span> Bring your beautiful smile.</li>
+      <li><span class="ic">📖</span> Bring your most outrageous stories.</li>
+      <li><span class="ic">✨</span> Bring your interest.</li>
+    </ul>
+
+    <label class="q">📬 Confirm your email <span class="hint">— the invite will be sent here</span></label>
+    <input type="email" id="email2" placeholder="hero@hyrule.com" autocomplete="email" inputmode="email" />
+
+    <div class="nav">
+      <button class="btn ghost" onclick="go(3)">◀ Back</button>
+      <button class="btn gold" onclick="finish()">🗝️ Finish &amp; Send Invite</button>
+    </div>
+    <p class="note">Tapping Finish opens a Google Calendar invite with your answers — accept it and the quest is sealed. 💚</p>
+  </div>
+
+</div>
+
+<script>
+  // ---- CONFIG ----
+  var HOST_EMAIL = "brobert.uy@gmail.com"; // the adventurer who gets the invite
+  var TZ = "Australia/Brisbane";
+
+  // ---- DATA ----
+  var dayList = [
+    ["2026-08-03","Mon 3 Aug"],["2026-08-04","Tue 4 Aug"],["2026-08-05","Wed 5 Aug"],
+    ["2026-08-06","Thu 6 Aug"],["2026-08-07","Fri 7 Aug"],["2026-08-08","Sat 8 Aug"],
+    ["2026-08-09","Sun 9 Aug"],["2026-08-10","Mon 10 Aug"],["2026-08-11","Tue 11 Aug"],
+    ["2026-08-12","Wed 12 Aug"],["2026-08-13","Thu 13 Aug"],["2026-08-14","Fri 14 Aug"]
+  ];
+  var timeList = [["18:00","6:00 pm"],["18:30","6:30 pm"],["19:00","7:00 pm"],["19:30","7:30 pm"],["20:00","8:00 pm"]];
+  var petList = ["Leave them at home","Bring them with us","No pets — not applicable"];
+  var takeList = ["Yes, takeaway works for me","No, restaurant only"];
+  var cuisineList = ["Italian","Thai","Japanese","Vietnamese","Chinese","Indian","Korean","Modern Australian","Mexican","Greek / Mediterranean"];
+  var dietList = ["None","Vegetarian","Vegan","Pescatarian","Fruitarian","Keto","Gluten free"];
+
+  var state = { email:"", days:[], time:"", pet:"", takeaway:"", cuisine:"", diet:"" };
+
+  // ---- BUILDERS ----
+  function optNode(container, text, group, multi, onpick){
+    var el = document.createElement('label');
+    el.className = 'opt';
+    var input = document.createElement('input');
+    input.type = multi ? 'checkbox' : 'radio';
+    input.name = group;
+    el.appendChild(input);
+    var span = document.createElement('span'); span.textContent = text; el.appendChild(span);
+    input.addEventListener('change', function(){
+      if(!multi){
+        [].forEach.call(container.querySelectorAll('.opt'), function(o){o.classList.remove('sel');});
+      }
+      el.classList.toggle('sel', input.checked);
+      onpick(text, input.checked);
+    });
+    container.appendChild(el);
+  }
+
+  dayList.forEach(function(d){ optNode(document.getElementById('days'), d[1], 'day', true, function(t,on){
+    if(on){ state.days.push(t); } else { state.days = state.days.filter(function(x){return x!==t;}); }
+    updateProg();
+  });});
+  timeList.forEach(function(t){ optNode(document.getElementById('times'), t[1], 'time', false, function(v){ state.time=v; updateProg(); });});
+  petList.forEach(function(p){ optNode(document.getElementById('pets'), p, 'pet', false, function(v){
+    state.pet=v;
+    document.getElementById('takeawayWrap').classList.toggle('show', v==="Bring them with us");
+    if(v!=="Bring them with us"){ state.takeaway=""; }
+    updateProg();
+  });});
+  takeList.forEach(function(t){ optNode(document.getElementById('takeaway'), t, 'take', false, function(v){ state.takeaway=v; updateProg(); });});
+  cuisineList.forEach(function(c){ optNode(document.getElementById('cuisine'), c, 'cuisine', false, function(v){ state.cuisine=v; updateProg(); });});
+  dietList.forEach(function(d){ optNode(document.getElementById('diet'), d, 'diet', false, function(v){ state.diet=v; updateProg(); });});
+
+  function updateProg(){
+    var checks = [state.days.length>0, !!state.time, !!state.pet, !!state.cuisine, !!state.diet];
+    var done = checks.filter(Boolean).length;
+    document.getElementById('prog').style.width = Math.round(done/checks.length*100)+'%';
+  }
+
+  // ---- NAV ----
+  function go(n){
+    for(var i=0;i<=4;i++){ var s=document.getElementById('s'+i); if(s) s.classList.remove('active'); }
+    document.getElementById('s'+n).classList.add('active');
+    window.scrollTo(0,0);
+  }
+  function saveEmailStart(){
+    var v = document.getElementById('email1').value.trim();
+    if(!validEmail(v)){ alert("Please enter a valid email, hero — the invite depends on it."); return; }
+    state.email = v;
+    document.getElementById('email2').value = v;
+    go(2);
+  }
+  function validEmail(v){ return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v); }
+
+  // ---- DODGING NO BUTTON ----
+  function dodge(){
+    var b = document.getElementById('noBtn');
+    var area = b.parentElement;
+    var maxX = area.clientWidth - b.offsetWidth;
+    var maxY = area.clientHeight - b.offsetHeight;
+    var x = Math.max(0, Math.floor(Math.random()*maxX));
+    var y = Math.max(0, Math.floor(Math.random()*maxY));
+    b.style.left = x+'px';
+    b.style.top = y+'px';
+    b.style.transform = 'none';
+    var taunts = ["(Too slow!)","(Nice try, hero.)","(It vanished!)","(The No is enchanted.)","(Resistance is futile 💚)","(Not today!)"];
+    document.getElementById('noTaunt').textContent = taunts[Math.floor(Math.random()*taunts.length)];
+  }
+
+  // ---- FINISH: build Google Calendar invite ----
+  function two(n){ return (n<10?'0':'')+n; }
+  function finish(){
+    var email = document.getElementById('email2').value.trim();
+    if(!validEmail(email)){ alert("Please confirm a valid email so the invite can be sent."); return; }
+    state.email = email;
+
+    // choose earliest selected night, else first available; time or default 7pm
+    var chosenDay = state.days.length ? state.days.slice().sort()[0] : dayList[0][0];
+    var chosenTime = state.time ? timeTo24(state.time) : "19:00";
+    var startStamp = chosenDay.replace(/-/g,'') + 'T' + chosenTime.replace(':','') + '00';
+    // +2 hours end
+    var endH = two((parseInt(chosenTime.slice(0,2),10)+2)%24);
+    var endStamp = chosenDay.replace(/-/g,'') + 'T' + endH + chosenTime.slice(3,5) + '00';
+
+    var lines = [
+      "A legendary dinner quest — answers from the scroll:",
+      "",
+      "Preferred night(s): " + (state.days.length? prettyDays(state.days) : "(not chosen)"),
+      "Preferred time: " + (state.time || "(not chosen)"),
+      "Pets: " + (state.pet || "(not chosen)"),
+      (state.pet==="Bring them with us" ? "Takeaway if no restaurant found: " + (state.takeaway || "(not chosen)") : null),
+      "Cuisine: " + (state.cuisine || "(not chosen)"),
+      "Dietary: " + (state.diet || "(not chosen)"),
+      "Guest email: " + state.email,
+      "",
+      "Reminders: bring your beautiful smile, your most outrageous stories, and your interest. ✨"
+    ].filter(function(x){return x!==null;});
+
+    var details = lines.join("\n");
+    var url = "https://calendar.google.com/calendar/render?action=TEMPLATE"
+      + "&text=" + encodeURIComponent("⚔️ Dinner Quest with " + HOST_EMAIL.split('@')[0])
+      + "&dates=" + startStamp + "/" + endStamp
+      + "&ctz=" + encodeURIComponent(TZ)
+      + "&details=" + encodeURIComponent(details)
+      + "&add=" + encodeURIComponent(HOST_EMAIL) + "," + encodeURIComponent(state.email)
+      + "&location=" + encodeURIComponent("Brisbane (venue TBC)");
+
+    window.open(url, "_blank");
+    // celebration
+    document.querySelector('.frame').innerHTML =
+      '<svg class="triforce" viewBox="0 0 100 90"><polygon points="50,2 68,34 32,34" fill="#c9a44c"/><polygon points="30,38 48,70 12,70" fill="#c9a44c"/><polygon points="70,38 88,70 52,70" fill="#c9a44c"/></svg>'
+      + '<h1>Quest Accepted! 🎉</h1>'
+      + '<p class="lead">A Google Calendar invite has opened in a new tab.<br>Accept it, and the feast is sealed. 💚</p>'
+      + '<div class="hearts">❤️ ❤️ ❤️</div>'
+      + '<p class="note">If the tab didn\'t open, <a id="fallback" href="'+url+'" target="_blank">tap here to open your invite</a>.</p>';
+  }
+
+  function timeTo24(label){
+    // label like "6:30 pm"
+    var m = label.match(/(\d+):(\d+)\s*(am|pm)/i);
+    var h = parseInt(m[1],10)%12; if(/pm/i.test(m[3])) h+=12;
+    return two(h)+':'+m[2];
+  }
+  function prettyDays(arr){
+    var map={}; dayList.forEach(function(d){map[d[0]]=d[1];});
+    return arr.slice().sort().map(function(x){return map[x]||x;}).join(", ");
+  }
+</script>
+</body>
+</html>

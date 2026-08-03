@@ -247,10 +247,29 @@
     container.appendChild(el);
   }
 
-  dayList.forEach(function(d){ optNode(document.getElementById('days'), d[1], 'day', true, function(t,on){
-    if(on){ state.days.push(t); } else { state.days = state.days.filter(function(x){return x!==t;}); }
-    updateProg();
-  });});
+  // Only show nights from today onward (invitee may open the link later in the window)
+  function todayLocal(){
+    var d = new Date();
+    return d.getFullYear() + '-' + two(d.getMonth()+1) + '-' + two(d.getDate());
+  }
+  var TODAY = todayLocal();
+  var availableDays = dayList.filter(function(d){ return d[0] >= TODAY; });
+
+  (function buildDays(){
+    var host = document.getElementById('days');
+    if(availableDays.length === 0){
+      host.className = '';
+      host.innerHTML = '<p style="margin:0;padding:12px 14px;background:rgba(255,255,255,.45);'
+        + 'border:2px dashed #cdb884;border-radius:10px;color:#6a5325;font-style:italic;">'
+        + 'All the listed nights (4–13 Aug) have now passed — but the offer absolutely still stands. '
+        + 'Finish the scroll and we’ll find a new night together. 💚</p>';
+      return;
+    }
+    availableDays.forEach(function(d){ optNode(host, d[1], 'day', true, function(t,on){
+      if(on){ state.days.push(t); } else { state.days = state.days.filter(function(x){return x!==t;}); }
+      updateProg();
+    });});
+  })();
   timeList.forEach(function(t){ optNode(document.getElementById('times'), t[1], 'time', false, function(v){ state.time=v; updateProg(); });});
   petList.forEach(function(p){ optNode(document.getElementById('pets'), p, 'pet', false, function(v){
     state.pet=v;
@@ -306,7 +325,8 @@
     state.email = email;
 
     // choose earliest selected night, else first available; time or default 7pm
-    var chosenDay = state.days.length ? state.days.slice().sort()[0] : dayList[0][0];
+    var chosenDay = state.days.length ? state.days.slice().sort()[0]
+                    : (availableDays.length ? availableDays[0][0] : TODAY);
     var chosenTime = state.time ? timeTo24(state.time) : "19:00";
     var startStamp = chosenDay.replace(/-/g,'') + 'T' + chosenTime.replace(':','') + '00';
     // +2 hours end

@@ -205,7 +205,7 @@
       <div class="grid" id="takeaway"></div>
     </div>
 
-    <label class="q">🍜 Cuisine of choice <span class="hint">— Brisbane's known establishments</span></label>
+    <label class="q">🍜 Cuisine of choice <span class="hint">— South East Qld's known establishments</span></label>
     <div class="grid two" id="cuisine"></div>
 
     <label class="q">🌿 Dietary restrictions on file</label>
@@ -265,7 +265,7 @@
   var PET_BRING = "Bring them to the scene";
   var petList = ["Leave them at HQ (home)", PET_BRING, "No accomplices — n/a"];
   var takeList = ["Yes, takeaway will suffice","No, dine-in only"];
-  var cuisineList = ["Italian","Thai","Japanese","Vietnamese","Chinese","Indian","Korean","Modern Australian","Mexican","Greek / Mediterranean"];
+  var cuisineList = ["Italian","Thai","Japanese","Vietnamese","Chinese","Indian","Korean","Modern Australian","Mexican","Greek / Mediterranean","Pub"];
   var dietList = ["None","Vegetarian","Vegan","Pescatarian","Fruitarian","Keto","Gluten free"];
 
   var state = { email:"", days:[], time:"", pet:"", takeaway:"", cuisine:"", diet:"" };
@@ -397,7 +397,7 @@
       + "&ctz=" + encodeURIComponent(TZ)
       + "&details=" + encodeURIComponent(details)
       + "&add=" + encodeURIComponent(HOST_EMAIL) + "," + encodeURIComponent(state.email)
-      + "&location=" + encodeURIComponent("Brisbane (location TBC)");
+      + "&location=" + encodeURIComponent("South East Qld (location TBC)");
 
     window.open(url, "_blank");
     // case closed screen

@@ -7,7 +7,7 @@ A Legend of Zelda–themed dinner **catch-up** invitation. Built as a single sel
 ## The quest
 1. Enter email (for the calendar invite)
 2. The Question — the **No** button dodges the cursor and can't be clicked
-3. Scroll of Considerations — night (**3 or 5 Nov 2026**), time (**from 5:30pm**), pets (leave/bring), takeaway fallback, cuisine (Brisbane top 10), dietary needs
+3. Scroll of Considerations — night (**3 or 5 Nov 2026**), time (**from 5:30pm**), pets (leave/bring), takeaway fallback, cuisine (South East Qld), dietary needs
 4. Reminder notes (smile, outrageous stories, latest news)
 5. **Finish** opens a prefilled Google Calendar invite containing all answers, with the host added as a guest
 

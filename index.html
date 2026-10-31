@@ -84,9 +84,11 @@
   }
   .opt:hover{border-color:var(--red);background:#fdf8ea;}
   .opt input{accent-color:var(--red);width:17px;height:17px;flex:none;}
+  .opt > span{flex:1 1 auto;min-width:0;line-height:1.25;overflow-wrap:break-word;}
   .opt.sel{background:#fbefcf;border-color:var(--red);box-shadow:inset 0 0 0 2px rgba(181,50,31,.3);}
-  .opt.sel::after{content:"LOGGED";position:absolute;right:9px;font-family:'Oswald',sans-serif;
-    font-size:.6rem;letter-spacing:1px;color:var(--red);}
+  .opt.sel .tag{display:inline;}
+  .tag{display:none;font-family:'Oswald',sans-serif;font-size:.58rem;letter-spacing:1px;
+    color:var(--red);flex:none;align-self:center;}
   input[type=email]{
     width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:3px;
     font-size:1rem;background:var(--card);color:var(--ink);font-family:inherit;
@@ -189,7 +191,7 @@
     <div class="progress"><i id="prog"></i></div>
     <p class="sub">File your statement. Each detail narrows the investigation.</p>
 
-    <label class="q">📅 Date of the rendezvous <span class="hint">— select any that work (3 or 5 Nov 2026)</span></label>
+    <label class="q">📅 Date of the rendezvous <span class="hint">— tick one or both (3 &amp; 5 Nov 2026)</span></label>
     <div class="grid days" id="days"></div>
 
     <label class="q">🕰️ Time of the meeting</label>
@@ -277,6 +279,7 @@
     input.name = group;
     el.appendChild(input);
     var span = document.createElement('span'); span.textContent = text; el.appendChild(span);
+    var tag = document.createElement('span'); tag.className = 'tag'; tag.textContent = 'LOGGED'; el.appendChild(tag);
     input.addEventListener('change', function(){
       if(!multi){
         [].forEach.call(container.querySelectorAll('.opt'), function(o){o.classList.remove('sel');});

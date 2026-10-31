@@ -112,7 +112,7 @@
   <div class="screen active" id="s0">
     <h1>⚔️ A Quest Awaits ⚔️</h1>
     <p class="sub">"It's dangerous to dine alone. Take this quest."</p>
-    <p class="lead">A brave adventurer seeks <span id="nameLead">your</span> company for a legendary feast.<br>Do you accept the call?</p>
+    <p class="lead">A fellow adventurer seeks <span id="nameLead">your</span> company for a long-overdue dinner catch-up.<br>Do you accept the call?</p>
     <div style="text-align:center;"><button class="btn gold" onclick="go(1)">▶ Begin the Quest</button></div>
     <p class="note">A short scroll of considerations follows. It takes but a minute, hero.</p>
   </div>
@@ -132,7 +132,7 @@
   <!-- SCREEN 2: THE ASK -->
   <div class="screen" id="s2">
     <h1>The Question of Destiny</h1>
-    <p class="lead">Will you join me for dinner,<br><span id="nameAsk">brave one</span>?</p>
+    <p class="lead">Will you join me for a dinner catch-up,<br><span id="nameAsk">brave one</span>?</p>
     <div class="yesno">
       <button class="btn gold" id="yesBtn" onclick="go(3)">💚 Yes!</button>
       <button class="btn" id="noBtn"
@@ -148,7 +148,7 @@
     <div class="progress"><i id="prog"></i></div>
     <p class="sub">Choose your path, and the feast shall be planned.</p>
 
-    <label class="q">🌙 Which night suits you? <span class="hint">— pick any that work (4–13 Aug 2026)</span></label>
+    <label class="q">🌙 Which night suits you? <span class="hint">— pick either that works (3 or 5 Nov 2026)</span></label>
     <div class="grid days" id="days"></div>
 
     <label class="q">🕯️ What time do you prefer?</label>
@@ -179,9 +179,9 @@
     <h1>Reminders for the Hero</h1>
     <p class="sub">No tasks — simply things to carry with you.</p>
     <ul class="reminders">
-      <li><span class="ic">😊</span> Bring your beautiful smile.</li>
+      <li><span class="ic">😊</span> Bring your best smile.</li>
       <li><span class="ic">📖</span> Bring your most outrageous stories.</li>
-      <li><span class="ic">✨</span> Bring your interest.</li>
+      <li><span class="ic">🗞️</span> Bring all your latest news.</li>
     </ul>
 
     <label class="q">📬 Confirm your email <span class="hint">— the invite will be sent here</span></label>
@@ -215,12 +215,9 @@
 
   // ---- DATA ----
   var dayList = [
-    ["2026-08-04","Tue 4 Aug"],["2026-08-05","Wed 5 Aug"],["2026-08-06","Thu 6 Aug"],
-    ["2026-08-07","Fri 7 Aug"],["2026-08-08","Sat 8 Aug"],["2026-08-09","Sun 9 Aug"],
-    ["2026-08-10","Mon 10 Aug"],["2026-08-11","Tue 11 Aug"],["2026-08-12","Wed 12 Aug"],
-    ["2026-08-13","Thu 13 Aug"]
+    ["2026-11-03","Tue 3 Nov"],["2026-11-05","Thu 5 Nov"]
   ];
-  var timeList = [["18:00","6:00 pm"],["18:30","6:30 pm"],["19:00","7:00 pm"],["19:30","7:30 pm"],["20:00","8:00 pm"]];
+  var timeList = [["17:30","5:30 pm"],["18:00","6:00 pm"],["18:30","6:30 pm"],["19:00","7:00 pm"],["19:30","7:30 pm"]];
   var petList = ["Leave them at home","Bring them with us","No pets — not applicable"];
   var takeList = ["Yes, takeaway works for me","No, restaurant only"];
   var cuisineList = ["Italian","Thai","Japanese","Vietnamese","Chinese","Indian","Korean","Modern Australian","Mexican","Greek / Mediterranean"];
@@ -261,8 +258,8 @@
       host.className = '';
       host.innerHTML = '<p style="margin:0;padding:12px 14px;background:rgba(255,255,255,.45);'
         + 'border:2px dashed #cdb884;border-radius:10px;color:#6a5325;font-style:italic;">'
-        + 'All the listed nights (4–13 Aug) have now passed — but the offer absolutely still stands. '
-        + 'Finish the scroll and we’ll find a new night together. 💚</p>';
+        + 'Both nights (3 &amp; 5 Nov) have now passed — but the catch-up absolutely still stands. '
+        + 'Finish the scroll and we’ll find a new night. 💚</p>';
       return;
     }
     availableDays.forEach(function(d){ optNode(host, d[1], 'day', true, function(t,on){
@@ -327,14 +324,14 @@
     // choose earliest selected night, else first available; time or default 7pm
     var chosenDay = state.days.length ? state.days.slice().sort()[0]
                     : (availableDays.length ? availableDays[0][0] : TODAY);
-    var chosenTime = state.time ? timeTo24(state.time) : "19:00";
+    var chosenTime = state.time ? timeTo24(state.time) : "17:30";
     var startStamp = chosenDay.replace(/-/g,'') + 'T' + chosenTime.replace(':','') + '00';
     // +2 hours end
     var endH = two((parseInt(chosenTime.slice(0,2),10)+2)%24);
     var endStamp = chosenDay.replace(/-/g,'') + 'T' + endH + chosenTime.slice(3,5) + '00';
 
     var lines = [
-      "A legendary dinner quest — answers from the scroll:",
+      "A legendary dinner catch-up — answers from the scroll:",
       "",
       "Preferred night(s): " + (state.days.length? prettyDays(state.days) : "(not chosen)"),
       "Preferred time: " + (state.time || "(not chosen)"),
@@ -344,12 +341,12 @@
       "Dietary: " + (state.diet || "(not chosen)"),
       "Guest email: " + state.email,
       "",
-      "Reminders: bring your beautiful smile, your most outrageous stories, and your interest. ✨"
+      "Reminders: bring your best smile, your most outrageous stories, and all your latest news. ✨"
     ].filter(function(x){return x!==null;});
 
     var details = lines.join("\n");
     var url = "https://calendar.google.com/calendar/render?action=TEMPLATE"
-      + "&text=" + encodeURIComponent("⚔️ Dinner Quest" + (INVITEE ? " with " + INVITEE : ""))
+      + "&text=" + encodeURIComponent("⚔️ Dinner Catch-up" + (INVITEE ? " with " + INVITEE : ""))
       + "&dates=" + startStamp + "/" + endStamp
       + "&ctz=" + encodeURIComponent(TZ)
       + "&details=" + encodeURIComponent(details)
@@ -361,8 +358,8 @@
     document.querySelector('.frame').innerHTML =
       '<svg class="triforce" viewBox="0 0 100 90"><polygon points="50,2 68,34 32,34" fill="#c9a44c"/><polygon points="30,38 48,70 12,70" fill="#c9a44c"/><polygon points="70,38 88,70 52,70" fill="#c9a44c"/></svg>'
       + '<h1>Quest Accepted! 🎉</h1>'
-      + '<p class="lead">A Google Calendar invite has opened in a new tab.<br>Accept it, and the feast is sealed. 💚</p>'
-      + '<div class="hearts">❤️ ❤️ ❤️</div>'
+      + '<p class="lead">A Google Calendar invite has opened in a new tab.<br>Accept it, and the catch-up is sealed. 💚</p>'
+      + '<div class="hearts">🎉 ⭐ 🎉</div>'
       + '<p class="note">If the tab didn\'t open, <a id="fallback" href="'+url+'" target="_blank">tap here to open your invite</a>.</p>';
   }
 

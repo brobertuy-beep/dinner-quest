@@ -3,205 +3,247 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="theme-color" content="#1b3a2b" />
-<title>A Quest Awaits ⚔️</title>
-<meta property="og:title" content="A Quest Awaits ⚔️" />
-<meta property="og:description" content="It's dangerous to dine alone. Take this quest." />
+<meta name="theme-color" content="#15171a" />
+<title>Case File: The Dinner Catch-up 🔍</title>
+<meta property="og:title" content="Case File: The Dinner Catch-up 🔍" />
+<meta property="og:description" content="A case has been opened. Your statement is required." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Oswald:wght@500;700&display=swap" rel="stylesheet" />
 <style>
   :root{
-    --parch:#f3e6c4; --parch2:#e8d29a; --ink:#2c1e0e; --gold:#c9a44c;
-    --green:#1b3a2b; --green2:#295a3f; --leaf:#3f8f5f; --red:#b53a2f;
-    --shadow:rgba(0,0,0,.35);
+    --paper:#e7dcc3; --paper2:#ddd0b2; --card:#f7f1e2;
+    --ink:#20211d; --ink2:#55503f; --red:#b5321f; --tape:#f2c400;
+    --line:#b7a984; --dark:#15171a; --shadow:rgba(0,0,0,.5);
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
   body{
-    font-family:'Trebuchet MS','Segoe UI',sans-serif;
-    background:
-      radial-gradient(circle at 50% 0%, #2a5540 0%, #16281d 60%, #0c150f 100%) fixed;
+    font-family:'Special Elite','Courier New',monospace;
+    background:radial-gradient(circle at 50% 16%, #2b2f35 0%, #16181c 62%, #0b0c0e 100%) fixed;
     color:var(--ink);
     min-height:100vh;
     display:flex; align-items:center; justify-content:center;
-    padding:18px;
-    overflow-x:hidden;
+    padding:18px; overflow-x:hidden;
   }
   .frame{
-    width:100%; max-width:640px;
-    background:linear-gradient(180deg,var(--parch),var(--parch2));
-    border:5px solid var(--gold);
-    border-radius:18px;
-    box-shadow:0 14px 40px var(--shadow), inset 0 0 60px rgba(160,120,40,.18);
-    padding:26px 22px 30px;
-    position:relative;
+    width:100%; max-width:640px; position:relative;
+    background:
+      repeating-linear-gradient(0deg, rgba(0,0,0,.015) 0 2px, transparent 2px 4px),
+      linear-gradient(180deg,var(--paper),var(--paper2));
+    border:1px solid #9c8f6c;
+    border-radius:4px;
+    box-shadow:0 18px 50px var(--shadow), inset 0 0 70px rgba(120,100,50,.12);
+    padding:30px 24px 30px;
   }
-  .frame::before,.frame::after{
-    content:"◆"; position:absolute; color:var(--gold); font-size:18px;
-    top:6px;
+  /* folder tab */
+  .frame::before{
+    content:"CASE FILE"; position:absolute; top:-20px; left:22px;
+    background:var(--paper2); border:1px solid #9c8f6c; border-bottom:none;
+    padding:4px 16px; font-family:'Oswald',sans-serif; font-weight:700;
+    letter-spacing:2px; font-size:.72rem; color:var(--ink2); border-radius:4px 4px 0 0;
   }
-  .frame::before{left:12px;} .frame::after{right:12px;}
-  .triforce{width:52px;height:46px;display:block;margin:0 auto 6px;}
+  /* confidential stamp */
+  .stamp-conf{
+    position:absolute; top:18px; right:10px; transform:rotate(9deg);
+    color:var(--red); border:3px solid var(--red); opacity:.42;
+    font-family:'Oswald',sans-serif; font-weight:700; letter-spacing:3px;
+    padding:4px 10px; font-size:.78rem; border-radius:4px; pointer-events:none;
+    text-transform:uppercase;
+  }
+  /* crime-scene tape divider */
+  .tape{
+    height:16px; margin:14px -24px 4px;
+    background:repeating-linear-gradient(45deg,#1a1a1a 0 14px,var(--tape) 14px 28px);
+    opacity:.9;
+  }
+  .badge{width:56px;height:56px;display:block;margin:2px auto 8px;}
   h1{
-    text-align:center; color:var(--green); margin:.1em 0 .1em;
-    font-size:1.6rem; letter-spacing:.5px;
-    text-shadow:1px 1px 0 #fff6d8;
+    text-align:center; color:var(--ink); margin:.1em 0;
+    font-family:'Oswald',sans-serif; font-weight:700; text-transform:uppercase;
+    font-size:1.5rem; letter-spacing:1.5px;
   }
-  .sub{text-align:center;color:#6a5325;font-style:italic;margin:0 0 18px;font-size:.95rem;}
+  .caseno{text-align:center;font-family:'Oswald',sans-serif;letter-spacing:2px;
+    color:var(--red);font-size:.72rem;margin:0 0 4px;}
+  .sub{text-align:center;color:var(--ink2);margin:0 0 16px;font-size:.92rem;line-height:1.5;}
   .screen{display:none; animation:fade .5s ease;}
   .screen.active{display:block;}
   @keyframes fade{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
-  p.lead{font-size:1.08rem;line-height:1.5;text-align:center;margin:.4em 0 1.1em;}
-  label.q{display:block;font-weight:bold;color:var(--green);margin:16px 0 8px;font-size:1.05rem;}
-  .hint{font-weight:normal;color:#7a6234;font-size:.85rem;font-style:italic;}
+  p.lead{font-size:1.02rem;line-height:1.55;text-align:center;margin:.4em 0 1.1em;}
+  label.q{display:block;font-weight:bold;color:var(--ink);margin:18px 0 8px;font-size:1rem;
+    border-left:4px solid var(--red); padding-left:9px;}
+  .hint{font-weight:normal;color:var(--ink2);font-size:.82rem;}
   .grid{display:grid;gap:9px;}
-  .grid.two{grid-template-columns:repeat(auto-fit,minmax(120px,1fr));}
-  .grid.days{grid-template-columns:repeat(auto-fit,minmax(140px,1fr));}
+  .grid.two{grid-template-columns:repeat(auto-fit,minmax(130px,1fr));}
+  .grid.days{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
   .opt{
     position:relative; display:flex; align-items:center; gap:9px;
-    background:rgba(255,255,255,.45); border:2px solid #cdb884;
-    border-radius:10px; padding:11px 12px; cursor:pointer;
-    transition:.15s; font-size:.98rem; user-select:none;
+    background:var(--card); border:1px solid var(--line);
+    border-radius:3px; padding:11px 12px; cursor:pointer;
+    transition:.15s; font-size:.95rem; user-select:none;
   }
-  .opt:hover{border-color:var(--leaf);background:rgba(255,255,255,.7);}
-  .opt input{accent-color:var(--leaf);width:18px;height:18px;flex:none;}
-  .opt.sel{background:rgba(63,143,95,.22);border-color:var(--leaf);box-shadow:0 0 0 2px rgba(63,143,95,.25) inset;}
+  .opt:hover{border-color:var(--red);background:#fdf8ea;}
+  .opt input{accent-color:var(--red);width:17px;height:17px;flex:none;}
+  .opt.sel{background:#fbefcf;border-color:var(--red);box-shadow:inset 0 0 0 2px rgba(181,50,31,.3);}
+  .opt.sel::after{content:"LOGGED";position:absolute;right:9px;font-family:'Oswald',sans-serif;
+    font-size:.6rem;letter-spacing:1px;color:var(--red);}
   input[type=email]{
-    width:100%;padding:13px 14px;border:2px solid #cdb884;border-radius:10px;
-    font-size:1rem;background:rgba(255,255,255,.7);color:var(--ink);
+    width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:3px;
+    font-size:1rem;background:var(--card);color:var(--ink);font-family:inherit;
   }
-  input[type=email]:focus{outline:none;border-color:var(--leaf);}
+  input[type=email]:focus{outline:none;border-color:var(--red);}
   .btn{
-    display:inline-block;background:linear-gradient(180deg,var(--green2),var(--green));
-    color:#ffe9a8;border:2px solid var(--gold);border-radius:12px;
-    padding:13px 26px;font-size:1.05rem;font-weight:bold;cursor:pointer;
-    box-shadow:0 5px 0 #123122, 0 8px 14px var(--shadow);
-    transition:transform .08s, box-shadow .08s; letter-spacing:.5px;
+    display:inline-block;background:#2b2f34;color:#f2ede1;
+    border:2px solid #4a4a4a;border-radius:3px;
+    padding:12px 24px;font-size:.95rem;font-weight:700;cursor:pointer;
+    font-family:'Oswald',sans-serif;letter-spacing:1.5px;text-transform:uppercase;
+    box-shadow:0 4px 0 #0f1113,0 7px 12px var(--shadow);
+    transition:transform .08s, box-shadow .08s;
   }
-  .btn:hover{filter:brightness(1.08);}
-  .btn:active{transform:translateY(3px);box-shadow:0 2px 0 #123122;}
-  .btn.gold{background:linear-gradient(180deg,#e5c15f,#c9a44c);color:#3a2a06;box-shadow:0 5px 0 #8a6d1f,0 8px 14px var(--shadow);}
+  .btn:hover{filter:brightness(1.12);}
+  .btn:active{transform:translateY(3px);box-shadow:0 1px 0 #0f1113;}
+  .btn.gold{background:var(--tape);color:#1a1a1a;border-color:#1a1a1a;box-shadow:0 4px 0 #9c8000,0 7px 12px var(--shadow);}
+  .btn.ghost{background:transparent;color:var(--ink);box-shadow:none;border-color:var(--line);}
   .nav{display:flex;justify-content:space-between;align-items:center;margin-top:22px;gap:12px;}
-  .btn.ghost{background:transparent;color:var(--green);box-shadow:none;border-color:#cdb884;}
   .yesno{position:relative;height:150px;margin-top:10px;}
   #yesBtn{position:absolute;left:50%;top:20px;transform:translateX(-50%);}
   #noBtn{
     position:absolute;left:50%;top:88px;transform:translateX(-50%);
-    background:linear-gradient(180deg,#c95246,var(--red));color:#ffe4e0;
-    box-shadow:0 5px 0 #7c241c,0 8px 14px var(--shadow);
+    background:#2b2f34;color:#ff8a7a;border-color:var(--red);
+    box-shadow:0 4px 0 #0f1113,0 7px 12px var(--shadow);
     transition:top .18s, left .18s;
   }
-  .hearts{text-align:center;font-size:1.3rem;letter-spacing:4px;margin:6px 0 2px;}
-  .progress{height:8px;background:rgba(0,0,0,.12);border-radius:6px;overflow:hidden;margin:2px 0 4px;}
-  .progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--leaf),var(--gold));transition:width .4s;}
+  .hearts{text-align:center;font-size:1.4rem;letter-spacing:6px;margin:8px 0 2px;}
+  .progress{height:9px;background:rgba(0,0,0,.14);border-radius:2px;overflow:hidden;margin:4px 0 2px;border:1px solid var(--line);}
+  .progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--red),var(--tape));transition:width .4s;}
   .reminders{list-style:none;padding:0;margin:8px 0 0;}
   .reminders li{
-    background:rgba(255,255,255,.45);border:2px dashed #cdb884;border-radius:10px;
-    padding:12px 14px;margin-bottom:10px;font-size:1rem;display:flex;gap:10px;align-items:center;
+    background:var(--card);border:1px solid var(--line);border-left:5px solid var(--red);
+    border-radius:3px; padding:12px 14px;margin-bottom:10px;font-size:.98rem;
+    display:flex;gap:11px;align-items:center;
   }
-  .reminders .ic{font-size:1.3rem;}
-  .note{font-size:.82rem;color:#7a6234;text-align:center;margin-top:14px;font-style:italic;}
+  .reminders .ex{font-family:'Oswald',sans-serif;font-weight:700;color:var(--red);
+    letter-spacing:1px;font-size:.78rem;flex:none;}
+  .note{font-size:.8rem;color:var(--ink2);text-align:center;margin-top:14px;}
   .cond{display:none;}
   .cond.show{display:block;}
-  @media(max-width:480px){h1{font-size:1.35rem;} .frame{padding:22px 15px 26px;}}
+  .stamp-closed{
+    display:inline-block;color:var(--red);border:5px solid var(--red);
+    font-family:'Oswald',sans-serif;font-weight:700;letter-spacing:5px;
+    padding:8px 20px;font-size:1.5rem;border-radius:6px;transform:rotate(-7deg);
+    text-transform:uppercase;margin:6px 0;opacity:.85;
+  }
+  @media(max-width:480px){h1{font-size:1.25rem;} .frame{padding:28px 15px 26px;} .stamp-conf{font-size:.64rem;}}
 </style>
 </head>
 <body>
 <div class="frame">
-  <svg class="triforce" viewBox="0 0 100 90"><polygon points="50,2 68,34 32,34" fill="#c9a44c"/><polygon points="30,38 48,70 12,70" fill="#c9a44c"/><polygon points="70,38 88,70 52,70" fill="#c9a44c"/></svg>
+  <span class="stamp-conf">Confidential</span>
+  <svg class="badge" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <circle cx="27" cy="27" r="16" fill="none" stroke="#b5321f" stroke-width="5"/>
+    <line x1="39" y1="39" x2="57" y2="57" stroke="#b5321f" stroke-width="7" stroke-linecap="round"/>
+  </svg>
 
   <!-- SCREEN 0: TITLE -->
   <div class="screen active" id="s0">
-    <h1>⚔️ A Quest Awaits ⚔️</h1>
-    <p class="sub">"It's dangerous to dine alone. Take this quest."</p>
-    <p class="lead">A fellow adventurer seeks <span id="nameLead">your</span> company for a long-overdue dinner catch-up.<br>Do you accept the call?</p>
-    <div style="text-align:center;"><button class="btn gold" onclick="go(1)">▶ Begin the Quest</button></div>
-    <p class="note">A short scroll of considerations follows. It takes but a minute, hero.</p>
+    <p class="caseno">CASE No. 11-03-05 · STATUS: OPEN</p>
+    <h1>The Dinner Catch-up</h1>
+    <div class="tape"></div>
+    <p class="sub">On a night yet to be determined, two acquaintances were scheduled to reconnect over dinner. The details remain unconfirmed. Your statement is required.</p>
+    <p class="lead">A case has been opened in <span id="nameLead">your</span> name.<br>Do you choose to cooperate?</p>
+    <div style="text-align:center;"><button class="btn gold" onclick="go(1)">🔍 Open the Case File</button></div>
+    <p class="note">A short statement follows. Est. time to file: one minute.</p>
   </div>
 
   <!-- SCREEN 1: EMAIL (start) -->
   <div class="screen" id="s1">
-    <h1>Scroll of Summoning</h1>
-    <p class="sub">Every hero needs a way to receive the invitation.</p>
-    <label class="q">📜 Your email address <span class="hint">— so a calendar invite can find you</span></label>
-    <input type="email" id="email1" placeholder="hero@hyrule.com" autocomplete="email" inputmode="email" />
+    <p class="caseno">STEP 1 OF 4 · CONTACT ON RECORD</p>
+    <h1>Witness Details</h1>
+    <p class="sub">Every file needs a point of contact for the record.</p>
+    <label class="q">📇 Your email address <span class="hint">— where the case summons (calendar invite) will be sent</span></label>
+    <input type="email" id="email1" placeholder="witness@example.com" autocomplete="email" inputmode="email" />
     <div class="nav">
       <button class="btn ghost" onclick="go(0)">◀ Back</button>
-      <button class="btn" onclick="saveEmailStart()">Onward ▶</button>
+      <button class="btn" onclick="saveEmailStart()">Proceed ▶</button>
     </div>
   </div>
 
   <!-- SCREEN 2: THE ASK -->
   <div class="screen" id="s2">
-    <h1>The Question of Destiny</h1>
-    <p class="lead">Will you join me for a dinner catch-up,<br><span id="nameAsk">brave one</span>?</p>
+    <p class="caseno">THE DECISIVE QUESTION</p>
+    <h1>Do You Accept?</h1>
+    <p class="lead">Will you join me for a dinner catch-up,<br><span id="nameAsk">detective</span>?</p>
     <div class="yesno">
-      <button class="btn gold" id="yesBtn" onclick="go(3)">💚 Yes!</button>
+      <button class="btn gold" id="yesBtn" onclick="go(3)">✔ Yes, I'm in</button>
       <button class="btn" id="noBtn"
         onmouseover="dodge()" onmouseenter="dodge()" ontouchstart="dodge();return false;"
-        onclick="dodge()">No</button>
+        onclick="dodge()">Decline</button>
     </div>
-    <p class="note" id="noTaunt">(The "No" button seems... cursed. It will not be caught.)</p>
+    <p class="note" id="noTaunt">(The "Decline" button appears to be tampering with evidence. It will not cooperate.)</p>
   </div>
 
   <!-- SCREEN 3: CONSIDERATIONS -->
   <div class="screen" id="s3">
-    <h1>Scroll of Considerations</h1>
+    <p class="caseno">STEP 3 OF 4 · STATEMENT OF PREFERENCES</p>
+    <h1>Case Details</h1>
     <div class="progress"><i id="prog"></i></div>
-    <p class="sub">Choose your path, and the feast shall be planned.</p>
+    <p class="sub">File your statement. Each detail narrows the investigation.</p>
 
-    <label class="q">🌙 Which night suits you? <span class="hint">— pick either that works (3 or 5 Nov 2026)</span></label>
+    <label class="q">📅 Date of the rendezvous <span class="hint">— select any that work (3 or 5 Nov 2026)</span></label>
     <div class="grid days" id="days"></div>
 
-    <label class="q">🕯️ What time do you prefer?</label>
+    <label class="q">🕰️ Time of the meeting</label>
     <div class="grid two" id="times"></div>
 
-    <label class="q">🐾 If you have companions (pets), shall we leave them or bring them?</label>
+    <label class="q">🐾 Any accomplices (pets)? Leave at HQ, or bring to the scene?</label>
     <div class="grid" id="pets"></div>
 
     <div class="cond" id="takeawayWrap">
-      <label class="q">🥡 If we bring them — are you okay with takeaway, should no suitable tavern be found?</label>
+      <label class="q">🥡 If brought along — is takeaway acceptable, should no venue be secured?</label>
       <div class="grid" id="takeaway"></div>
     </div>
 
-    <label class="q">🍜 What cuisine do you desire? <span class="hint">— Brisbane's finest</span></label>
+    <label class="q">🍜 Cuisine of choice <span class="hint">— Brisbane's known establishments</span></label>
     <div class="grid two" id="cuisine"></div>
 
-    <label class="q">🌿 Any dietary requirements?</label>
+    <label class="q">🌿 Dietary restrictions on file</label>
     <div class="grid two" id="diet"></div>
 
     <div class="nav">
       <button class="btn ghost" onclick="go(2)">◀ Back</button>
-      <button class="btn" onclick="go(4)">To the Final Scroll ▶</button>
+      <button class="btn" onclick="go(4)">Review Evidence ▶</button>
     </div>
   </div>
 
   <!-- SCREEN 4: REMINDERS + CONFIRM EMAIL + FINISH -->
   <div class="screen" id="s4">
-    <h1>Reminders for the Hero</h1>
-    <p class="sub">No tasks — simply things to carry with you.</p>
+    <p class="caseno">STEP 4 OF 4 · EVIDENCE TO BRING</p>
+    <h1>Exhibits Required</h1>
+    <p class="sub">No action items — simply items to bring to the scene.</p>
     <ul class="reminders">
-      <li><span class="ic">😊</span> Bring your best smile.</li>
-      <li><span class="ic">📖</span> Bring your most outrageous stories.</li>
-      <li><span class="ic">🗞️</span> Bring all your latest news.</li>
+      <li><span class="ex">EXHIBIT&nbsp;A</span> Your best smile.</li>
+      <li><span class="ex">EXHIBIT&nbsp;B</span> Your most outrageous stories.</li>
+      <li><span class="ex">EXHIBIT&nbsp;C</span> All your latest news.</li>
     </ul>
 
-    <label class="q">📬 Confirm your email <span class="hint">— the invite will be sent here</span></label>
-    <input type="email" id="email2" placeholder="hero@hyrule.com" autocomplete="email" inputmode="email" />
+    <label class="q">📬 Confirm contact email <span class="hint">— the summons will be sent here</span></label>
+    <input type="email" id="email2" placeholder="witness@example.com" autocomplete="email" inputmode="email" />
 
     <div class="nav">
       <button class="btn ghost" onclick="go(3)">◀ Back</button>
-      <button class="btn gold" onclick="finish()">🗝️ Finish &amp; Send Invite</button>
+      <button class="btn gold" onclick="finish()">🗂️ Close the Case</button>
     </div>
-    <p class="note">Tapping Finish opens a Google Calendar invite with your answers — accept it and the quest is sealed. 💚</p>
+    <p class="note">Closing the case opens a Google Calendar summons with your statement — confirm it and the case is sealed.</p>
   </div>
 
 </div>
 
 <script>
   // ---- CONFIG ----
-  var HOST_EMAIL = "brobert.uy@gmail.com"; // the adventurer who gets the invite
+  var HOST_EMAIL = "brobert.uy@gmail.com"; // the lead investigator who gets the invite
   var TZ = "Australia/Brisbane";
 
-  // ---- INVITEE NAME FROM URL (?name=Zelda) ----
+  // ---- INVITEE NAME FROM URL (?name=Sarah) ----
   var INVITEE = "";
   (function(){
     var p = new URLSearchParams(window.location.search);
@@ -218,8 +260,9 @@
     ["2026-11-03","Tue 3 Nov"],["2026-11-05","Thu 5 Nov"]
   ];
   var timeList = [["17:30","5:30 pm"],["18:00","6:00 pm"],["18:30","6:30 pm"],["19:00","7:00 pm"],["19:30","7:30 pm"]];
-  var petList = ["Leave them at home","Bring them with us","No pets — not applicable"];
-  var takeList = ["Yes, takeaway works for me","No, restaurant only"];
+  var PET_BRING = "Bring them to the scene";
+  var petList = ["Leave them at HQ (home)", PET_BRING, "No accomplices — n/a"];
+  var takeList = ["Yes, takeaway will suffice","No, dine-in only"];
   var cuisineList = ["Italian","Thai","Japanese","Vietnamese","Chinese","Indian","Korean","Modern Australian","Mexican","Greek / Mediterranean"];
   var dietList = ["None","Vegetarian","Vegan","Pescatarian","Fruitarian","Keto","Gluten free"];
 
@@ -244,7 +287,7 @@
     container.appendChild(el);
   }
 
-  // Only show nights from today onward (invitee may open the link later in the window)
+  // Only show dates from today onward (file may be opened later in the window)
   function todayLocal(){
     var d = new Date();
     return d.getFullYear() + '-' + two(d.getMonth()+1) + '-' + two(d.getDate());
@@ -256,10 +299,10 @@
     var host = document.getElementById('days');
     if(availableDays.length === 0){
       host.className = '';
-      host.innerHTML = '<p style="margin:0;padding:12px 14px;background:rgba(255,255,255,.45);'
-        + 'border:2px dashed #cdb884;border-radius:10px;color:#6a5325;font-style:italic;">'
-        + 'Both nights (3 &amp; 5 Nov) have now passed — but the catch-up absolutely still stands. '
-        + 'Finish the scroll and we’ll find a new night. 💚</p>';
+      host.innerHTML = '<p style="margin:0;padding:12px 14px;background:var(--card);'
+        + 'border:1px solid var(--line);border-left:5px solid var(--red);border-radius:3px;color:var(--ink2);">'
+        + 'Both dates (3 &amp; 5 Nov) have now passed — but the case remains open. '
+        + 'File your statement and we’ll set a new date. 🔍</p>';
       return;
     }
     availableDays.forEach(function(d){ optNode(host, d[1], 'day', true, function(t,on){
@@ -270,8 +313,8 @@
   timeList.forEach(function(t){ optNode(document.getElementById('times'), t[1], 'time', false, function(v){ state.time=v; updateProg(); });});
   petList.forEach(function(p){ optNode(document.getElementById('pets'), p, 'pet', false, function(v){
     state.pet=v;
-    document.getElementById('takeawayWrap').classList.toggle('show', v==="Bring them with us");
-    if(v!=="Bring them with us"){ state.takeaway=""; }
+    document.getElementById('takeawayWrap').classList.toggle('show', v===PET_BRING);
+    if(v!==PET_BRING){ state.takeaway=""; }
     updateProg();
   });});
   takeList.forEach(function(t){ optNode(document.getElementById('takeaway'), t, 'take', false, function(v){ state.takeaway=v; updateProg(); });});
@@ -292,14 +335,14 @@
   }
   function saveEmailStart(){
     var v = document.getElementById('email1').value.trim();
-    if(!validEmail(v)){ alert("Please enter a valid email, hero — the invite depends on it."); return; }
+    if(!validEmail(v)){ alert("A valid email is required for the record — the summons depends on it."); return; }
     state.email = v;
     document.getElementById('email2').value = v;
     go(2);
   }
   function validEmail(v){ return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v); }
 
-  // ---- DODGING NO BUTTON ----
+  // ---- DODGING DECLINE BUTTON ----
   function dodge(){
     var b = document.getElementById('noBtn');
     var area = b.parentElement;
@@ -310,7 +353,8 @@
     b.style.left = x+'px';
     b.style.top = y+'px';
     b.style.transform = 'none';
-    var taunts = ["(Too slow!)","(Nice try, hero.)","(It vanished!)","(The No is enchanted.)","(Resistance is futile 💚)","(Not today!)"];
+    var taunts = ["(The suspect fled the scene.)","(No comment logged.)","(Objection — overruled.)",
+      "(The evidence points to YES.)","(Case says you can't decline.)","(Nice try, detective.)"];
     document.getElementById('noTaunt').textContent = taunts[Math.floor(Math.random()*taunts.length)];
   }
 
@@ -318,53 +362,55 @@
   function two(n){ return (n<10?'0':'')+n; }
   function finish(){
     var email = document.getElementById('email2').value.trim();
-    if(!validEmail(email)){ alert("Please confirm a valid email so the invite can be sent."); return; }
+    if(!validEmail(email)){ alert("Please confirm a valid email so the summons can be sent."); return; }
     state.email = email;
 
-    // choose earliest selected night, else first available; time or default 7pm
+    // earliest selected date, else first available; time or default 5:30pm
     var chosenDay = state.days.length ? state.days.slice().sort()[0]
                     : (availableDays.length ? availableDays[0][0] : TODAY);
     var chosenTime = state.time ? timeTo24(state.time) : "17:30";
     var startStamp = chosenDay.replace(/-/g,'') + 'T' + chosenTime.replace(':','') + '00';
-    // +2 hours end
     var endH = two((parseInt(chosenTime.slice(0,2),10)+2)%24);
     var endStamp = chosenDay.replace(/-/g,'') + 'T' + endH + chosenTime.slice(3,5) + '00';
 
     var lines = [
-      "A legendary dinner catch-up — answers from the scroll:",
+      "CASE FILE — Dinner Catch-up. Statement on record:",
       "",
-      "Preferred night(s): " + (state.days.length? prettyDays(state.days) : "(not chosen)"),
-      "Preferred time: " + (state.time || "(not chosen)"),
-      "Pets: " + (state.pet || "(not chosen)"),
-      (state.pet==="Bring them with us" ? "Takeaway if no restaurant found: " + (state.takeaway || "(not chosen)") : null),
-      "Cuisine: " + (state.cuisine || "(not chosen)"),
-      "Dietary: " + (state.diet || "(not chosen)"),
-      "Guest email: " + state.email,
+      "Preferred date(s): " + (state.days.length? prettyDays(state.days) : "(not filed)"),
+      "Preferred time: " + (state.time || "(not filed)"),
+      "Accomplices (pets): " + (state.pet || "(not filed)"),
+      (state.pet===PET_BRING ? "Takeaway if no venue secured: " + (state.takeaway || "(not filed)") : null),
+      "Cuisine: " + (state.cuisine || "(not filed)"),
+      "Dietary: " + (state.diet || "(not filed)"),
+      "Witness email: " + state.email,
       "",
-      "Reminders: bring your best smile, your most outrageous stories, and all your latest news. ✨"
+      "Evidence to bring: your best smile, your most outrageous stories, and all your latest news. 🔍"
     ].filter(function(x){return x!==null;});
 
     var details = lines.join("\n");
     var url = "https://calendar.google.com/calendar/render?action=TEMPLATE"
-      + "&text=" + encodeURIComponent("⚔️ Dinner Catch-up" + (INVITEE ? " with " + INVITEE : ""))
+      + "&text=" + encodeURIComponent("🔍 Case File: Dinner Catch-up" + (INVITEE ? " with " + INVITEE : ""))
       + "&dates=" + startStamp + "/" + endStamp
       + "&ctz=" + encodeURIComponent(TZ)
       + "&details=" + encodeURIComponent(details)
       + "&add=" + encodeURIComponent(HOST_EMAIL) + "," + encodeURIComponent(state.email)
-      + "&location=" + encodeURIComponent("Brisbane (venue TBC)");
+      + "&location=" + encodeURIComponent("Brisbane (location TBC)");
 
     window.open(url, "_blank");
-    // celebration
+    // case closed screen
     document.querySelector('.frame').innerHTML =
-      '<svg class="triforce" viewBox="0 0 100 90"><polygon points="50,2 68,34 32,34" fill="#c9a44c"/><polygon points="30,38 48,70 12,70" fill="#c9a44c"/><polygon points="70,38 88,70 52,70" fill="#c9a44c"/></svg>'
-      + '<h1>Quest Accepted! 🎉</h1>'
-      + '<p class="lead">A Google Calendar invite has opened in a new tab.<br>Accept it, and the catch-up is sealed. 💚</p>'
-      + '<div class="hearts">🎉 ⭐ 🎉</div>'
-      + '<p class="note">If the tab didn\'t open, <a id="fallback" href="'+url+'" target="_blank">tap here to open your invite</a>.</p>';
+      '<span class="stamp-conf">Closed</span>'
+      + '<svg class="badge" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">'
+      + '<circle cx="27" cy="27" r="16" fill="none" stroke="#b5321f" stroke-width="5"/>'
+      + '<line x1="39" y1="39" x2="57" y2="57" stroke="#b5321f" stroke-width="7" stroke-linecap="round"/></svg>'
+      + '<p class="caseno" style="text-align:center">STATUS: RESOLVED</p>'
+      + '<div style="text-align:center"><span class="stamp-closed">Case Closed</span></div>'
+      + '<p class="lead">A Google Calendar summons has opened in a new tab.<br>Confirm it, and the case is officially sealed.</p>'
+      + '<div class="hearts">🗂️ ✔ 🔍</div>'
+      + '<p class="note">If the tab didn\'t open, <a id="fallback" href="'+url+'" target="_blank">tap here to open the summons</a>.</p>';
   }
 
   function timeTo24(label){
-    // label like "6:30 pm"
     var m = label.match(/(\d+):(\d+)\s*(am|pm)/i);
     var h = parseInt(m[1],10)%12; if(/pm/i.test(m[3])) h+=12;
     return two(h)+':'+m[2];
